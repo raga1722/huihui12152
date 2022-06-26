@@ -1,0 +1,586 @@
+//prog 3a
+
+//Student
+package p1;
+
+public class Student {
+
+	int usn;
+	String name;
+	void getData(int n, String s){
+		usn = n;
+		name = s;
+	}
+	void putData() {
+		System.out.println("USN: "+usn);
+		System.out.println("Name: "+name);
+	}
+}
+
+
+//testStudent
+package p1;
+
+import p1.*;
+
+public class testStudent {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		p1.Student s = new Student();
+		s.getData(123, “xyz”);
+		s.putData();
+	}
+
+}
+
+//prog6
+
+
+package program;
+import java.util.*;
+
+class ThreadA extends Thread {
+	public void run() {
+		Random random = new Random();
+		int n;
+		for(int i=0;i<3;i++) {
+			n = random.nextInt(100);
+			System.out.println("Random Number: "+n);
+			if(n%2==0) {
+				ThreadB tb = new ThreadB(n);
+				Thread ttb = new Thread(tb);
+				ttb.run();
+			}else {
+				ThreadC tc = new ThreadC(n);
+				Thread ttc = new Thread(tc);
+				ttc.run();
+			}
+		}
+	}
+}
+class ThreadB extends Thread {
+	int num;
+	ThreadB(int n){
+		num = n;
+	}
+	public void run() {
+		System.out.println("Square:"+(num*num));
+	}
+}
+class ThreadC extends Thread {
+	int num;
+	ThreadC(int n){
+		num = n;
+	}
+	public void run() {
+		System.out.println("Cube:"+(num*num*num));
+	}
+}
+
+
+public class prog6 {
+	public static void main(String args[]) {
+		ThreadA ta = new ThreadA();
+		Thread tta = new Thread(ta);
+		tta.run();
+	}
+}
+
+//prog7
+
+package program;
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+class MyException extends Exception{
+	MyException(String s){
+		super(s);
+	}
+}
+
+public class prog7 {
+	public static void main(String args[]) {
+		int age;
+		System.out.println("Enter age:");
+		Scanner scanner = new Scanner(System.in);
+		age = scanner.nextInt();
+		try {
+			if(age<18) {
+				throw new MyException("Invalid");
+			}else {
+				System.out.println("Allowed for voting");
+			}
+		}catch(MyException e) {
+			System.out.println(e.getMessage());
+			System.out.println("Not allowed for voting");
+		}catch(Exception e) {
+			System.out.println("Something causing errors");
+		}
+	}
+}
+
+
+//prog8
+package program;
+import java.applet.*;
+import java.awt.event.*;
+import java.awt.*;
+
+public class MouseEvents extends Applet implements MouseListener ,MouseMotionListener {
+
+	String msg=" ";
+	int x=0,y=0;
+	public void init()
+	{
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		
+	}
+	public void mouseClicked(MouseEvent m)
+	{
+		x=10;
+		y=10;
+		msg="mouse clicked";
+		repaint();
+		
+	}
+	public void mouseEntered(MouseEvent m)
+	{
+		x=10;
+		y=10;
+		msg="mouse Entered";
+		repaint();
+		
+	}
+	public void mouseExited(MouseEvent m)
+	{
+		x=10;
+		y=10;
+		msg="mouse exited";
+		repaint();
+		
+	}
+	public void mousePressed(MouseEvent m)
+	{
+		x=m.getX();
+		y=m.getY();
+		msg="Down";
+		repaint();
+		
+	}
+	public void mouseReleased(MouseEvent m)
+	{
+		x=m.getX();
+		y=m.getY();
+		msg="UP";
+		repaint();
+		
+		
+	}
+	public void mouseDragged(MouseEvent m)
+	{
+		
+		x=m.getX();
+		y=m.getY();
+		msg=" * ";
+		showStatus("Dragged mouse at "+x+"&"+y);
+		repaint();
+		
+	}
+	public void mouseMoved(MouseEvent m)
+	{
+		showStatus("Moving mouse at"+m.getX()+"&"+m.getY());
+	}
+	public void paint(Graphics g)
+	{
+		g.drawString(msg, x, y);
+	}
+}
+
+//prog 6s
+
+import java.util.*;
+class RandomGenthread extends Thread
+{
+	double num;
+	public void run()
+	{
+		int n;
+		Random rand =new Random();
+		try {
+			for(int i=0;i<2;i++)
+			{
+				n=rand.nextInt(20);
+				System.out.println("Geenerate the number is"+n);
+				if(n%2==0)
+				{
+					EvenNum e1=new EvenNum(n);
+					Thread thread1=new Thread(e1);
+					thread1.start();
+				}
+				else
+				{
+					OddNum o1=new OddNum(n);
+					Thread thread2=new Thread(o1);
+					thread2.start();
+				}
+				Thread.sleep(1000);
+				System.out.println("------------------------------");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
+	}
+}
+class EvenNum implements Runnable
+{
+	public int a;
+	public EvenNum(int a)
+	{
+		this.a=a;
+		
+	}
+	public void run()
+	{
+		System.out.println("The thread "+a+" is Even and square of "+a+" is: "+a*a);
+		
+	}
+}
+class OddNum implements Runnable
+{
+	public int a;
+	public OddNum(int a)
+	{
+		this.a=a;
+		
+	}
+	public void run()
+	{
+		System.out.println("The thread "+a+" is Odd and cube of "+a+" is: "+a*a*a);
+		
+	}
+}
+
+
+public class MultiThread {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		RandomGenthread rand_num=new RandomGenthread();
+		rand_num.start();		
+
+	}
+
+}
+
+//prog2a
+
+class car
+{
+	public car()
+	{
+		System.out.println("class car");
+	}
+	public void vehcleType()
+	{
+		System.out.println("vehicle type :car");
+	}
+}
+class Maruti extends car
+{
+	public Maruti()
+	{
+		System.out.println("class Maruti");
+	}
+	public void brand()
+	{
+		System.out.println("brand:maruti");
+	}
+	public void speed()
+	{
+		System.out.println("max speed:80kmph");
+	}
+}
+public class Maruti800 extends Maruti
+{
+	public Maruti800()
+	{
+		System.out.println("class Maruti800");
+	}
+	public void speed()
+	{
+		System.out.println("max speed:90kmph");
+	}
+	public static void main(String args[])
+	{
+		Maruti800 obj=new Maruti800();
+		obj.vehcleType();
+		obj.brand();
+		obj.speed();
+		
+		
+	}
+}
+
+//prog1a
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+
+public class LinearSearch1a {
+
+	public static void main(String[] args) {
+		int i,n,item;
+		System.out.println("enter the number of terms");
+		Scanner sc =new Scanner (System.in);
+		
+		n=sc.nextInt();
+		int arr[]=new int[n];
+		
+		for( i=0;i<n;i++)
+		{
+			arr[i]=sc.nextInt();
+		}
+		System.out.println("Enter the search iteem");
+		item=sc.nextInt();
+		for(i=0;i<n;i++)
+		{
+			if(arr[i]==item)
+			{
+				System.out.println("item is found at position :"+(i+1));
+				break;
+			}
+		}
+		if(i==n)
+		{
+			System.out.println("the searched item is not present int the list");
+		}
+		
+				
+
+	}
+
+}
+//prog1b
+
+import java.util.*;
+import java.io.*;
+
+public class SotingNames1b {
+
+	public static void main(String[] args)throws IOException {
+		
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Enter the number of names in the array");
+		int n=Integer.parseInt(br.readLine());
+		
+		String arr[]=new String[n];
+		int i,j;
+		String temp;
+		for(i=0;i<n;i++)
+		{
+			arr[i]=br.readLine();		
+			}
+		System.out.println("Names in ascending order ");
+		for(i=0;i<arr.length;i++)
+		{
+			for(j=i+1;j<arr.length;j++)
+			{
+				if((arr[j].compareToIgnoreCase(arr[i]))<0)
+				{
+					temp=arr[i];
+					arr[i]=arr[j];
+					arr[j]=temp;
+					
+				}
+			}
+			System.out.println(arr[i]);
+			
+			
+		}
+		
+        
+	}
+
+}
+//prog 3b
+
+import java.util.*;
+
+
+public class StringTokenizerDemo {
+
+	public static void main(String[] args) {
+        int sum=0;
+		
+		Scanner sc =new Scanner(System.in);
+		System.out.println("enter the integer with space");
+		String s=sc.nextLine();
+		StringTokenizer st=new StringTokenizer(s," ");
+		while(st.hasMoreTokens())
+		{
+			String temp=st.nextToken();
+			int n=Integer.parseInt(temp);
+			System.out.println(n);
+			sum=sum+n;
+		}
+		System.out.println(sum);
+		sc.close();
+
+		
+
+	}
+
+}
+
+//prog 4b
+
+import java.io.*;
+public class clsarray {
+
+	public static void main(String[] args)throws IOException {
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		
+		int i;
+		 int arr[]=new int[100];
+		 
+		 System.out.println("Enter the number of values\n");
+		int n=Integer.parseInt(br.readLine());
+		System.out.println("Enter the values\n");
+		for(i=0;i<n;i++)
+		{
+			arr[i]=Integer.parseInt(br.readLine());
+		}
+		System.out.println("The values are");
+		for(i=0;i<n;i++)
+		{
+			System.out.println(arr[i]);
+		}
+		
+	}
+
+}
+
+//prog 5a
+import java.lang.String;
+public class stringDemo {
+
+	public static void main(String[] args) {
+		
+	 String s1=new String("ISE DSCE BANGALORE");
+	 String s2="ISE DSCE BANGALORE";
+	 System.out.println("String s1 is:"+s1);
+	 System.out.println("String s2 is:"+s2);
+	 System.out.println("the first occurence of r in s1 is :"+s1.indexOf("r"));
+	 System.out.println("s1 equals to s2 ?:"+s1.equals(s2));
+	 System.out.println("s1 equal ignore case to s2?:"+s1.equalsIgnoreCase(s2));
+	 int res =s1.compareTo(s2);
+	 if(res==0)
+	 {
+		 System.out.println(s1+" equals to "+s2);
+	 }
+	 else if(res>0)
+	 {
+		 System.out.println(s1+"greeater than "+s2);
+	 }
+	 else 
+	 {
+		 System.out.println(s1+"smaller than "+s2);
+	 }
+	 
+	 System.out.println(s1.toUpperCase());
+	 System.out.println(s2.toLowerCase());
+	 
+	 System.out.println(s1.substring(4,12));
+	 System.out.println(s1.replace('E', 'x'));
+	 System.out.println(s1);
+	 String s3="  here is my hotel   ";
+	 System.out.println(s3.trim());
+
+	}
+
+}
+
+//prog5b
+import java.lang.String;
+public class strinBuffer {
+
+	public static void main(String[] args) {
+		StringBuffer s1 =new StringBuffer("ISE DSCE BANGALORE");
+		System.out.println(s1.length());
+		System.out.println(s1.capacity());
+		System.out.println(s1.charAt(4));
+		System.out.println(s1.indexOf("R"));
+		System.out.println(s1.append(" hi its me"));
+		s1.setCharAt(6, 'k');
+		System.out.println(s1);
+		System.out.println(s1.substring(4, 12));
+		System.out.println(s1.delete(4, 5));
+		System.out.println(s1);
+		System.out.println(s1.hashCode());
+		System.out.println(s1.equals("hello"));
+		
+		
+		
+		
+
+	}
+
+}
+
+//prog 7
+
+import java.lang.*;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.util.*;
+
+
+
+class MyException extends Exception
+{
+	MyException(String message)
+	{
+		super(message);
+	}
+}
+
+
+public class ExceptionDemo {
+
+	public static void main(String[] args)throws IOException {
+		int age;
+		System.out.println("enter the age");
+		DataInputStream sc =new DataInputStream(System.in);
+		age=Integer.parseInt(sc.readLine());
+		try
+		{
+			if(age<18 && age>40)
+			{
+				throw new MyException("age is not in range");
+			}
+			System.out.println("the age is:"+age);
+			
+		}
+		
+		catch(MyException e)
+		{
+			System.out.println("MyException is caught");
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+		sc.close();
+	}
+
+}
+
